@@ -27,3 +27,9 @@ bot.on('message', (msg) => {
   // send a message to the chat acknowledging receipt of their message
   bot.sendMessage(chatId, 'Received your message');
 });
+
+
+bot.command('/test', ctx =>{
+    let idUser = ctx.from.id;
+    ctx.reply('hola Ana que tengas buena tarde soy todavía muy tonto pero ya verás');
+})
