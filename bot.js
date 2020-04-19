@@ -55,7 +55,7 @@ bot.onText(/\/test/, (msg, match) => {
     const chatId = msg.chat.id;
     const resp = match[1]; // the captured "whatever"
   
-    bot.sendMessage(chatId, "Welcome " + msg.from.username);
+    bot.sendMessage(chatId, "Hola " + msg.from.username);
   });
 
 
