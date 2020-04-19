@@ -1,4 +1,5 @@
 const TelegramBot = require('node-telegram-bot-api');
+const Nodemailer = require('nodemailer');
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = process.env.FEDETOKEN;
@@ -6,7 +7,7 @@ const token = process.env.FEDETOKEN;
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true});
 
-const transporter = nodemailer.createTransport({
+const transporter = Nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.MAILUSER || 'tucorreo@gmail.com',
@@ -59,15 +60,15 @@ bot.onText(/\/test/, (msg, match) => {
 
 
 bot.onText(/\/TODO (.+)/, (msg, match) =>{  
-  
-  mailOptions.subject = msg.text;
+  const newItemTODO = match[1];
+  mailOptions.subject = newItemTODO;
 
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
     } else {
       console.log('Email enviado: ' + info.response);
-      bot.sendMessage(chatId, 'Tarea '+ msg.text +' registrada');
+      bot.sendMessage(chatId, 'Tarea '+ newItemTODO +' registrada');
     }
   });
 });
