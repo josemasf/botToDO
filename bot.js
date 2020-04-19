@@ -59,7 +59,7 @@ bot.onText(/\/test/, (msg, match) => {
   });
 
 
-bot.onText(/\/TODO (.+)/, (msg, match) =>{  
+bot.onText(/\/todo (.+)/, (msg, match) =>{  
   const newItemTODO = match[1];
   mailOptions.subject = newItemTODO;
 
