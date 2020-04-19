@@ -28,8 +28,13 @@ bot.on('message', (msg) => {
   bot.sendMessage(chatId, 'Received your message');
 });
 
-
-bot.command('/test', ctx =>{
-    let idUser = ctx.from.id;
-    ctx.reply('hola Ana que tengas buena tarde soy todavía muy tonto pero ya verás');
-})
+bot.onText(/\/test (.+)/, (msg, match) => {
+    // 'msg' is the received Message from Telegram
+    // 'match' is the result of executing the regexp above on the text content
+    // of the message
+  
+    const chatId = msg.chat.id;
+    const resp = match[1]; // the captured "whatever"
+  
+    bot.sendMessage(chatId, "Welcome");
+  });
