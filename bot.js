@@ -6,6 +6,24 @@ const token = process.env.FEDETOKEN;
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true});
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.MAILUSER || 'tucorreo@gmail.com',
+    pass: process.env.MAILPASS || 'tucontraseña'
+  }
+});
+
+let mensaje = "Hola desde nodejs...";
+
+let mailOptions = {
+  from: process.env.MAILUSER ||'tucorreo@gmail.com',
+  to: process.env.MAILTODO ||'mi-amigo@yahoo.com',
+  subject: 'Hola',//msg.text.toString(),
+  text: mensaje
+};
+
+
 // Matches "/echo [whatever]"
 bot.onText(/\/echo (.+)/, (msg, match) => {
   // 'msg' is the received Message from Telegram
@@ -40,30 +58,16 @@ bot.onText(/\/test/, (msg, match) => {
   });
 
 
-bot.onText(/\/TODO/, (msg, match=>{
-  //Creamos el objeto de transporte
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.MAILUSER || 'tucorreo@gmail.com',
-      pass: process.env.MAILPASS || 'tucontraseña'
-    }
-  });
-
-  var mensaje = "Hola desde nodejs...";
-
-  var mailOptions = {
-    from: process.env.MAILUSER ||'tucorreo@gmail.com',
-    to: process.env.MAILTODO ||'mi-amigo@yahoo.com',
-    subject: 'Hola',//msg.text.toString(),
-    text: mensaje
-  };
+bot.onText(/\/TODO (.+)/, (msg, match) =>{  
+  
+  mailOptions.subject = msg.text;
 
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
     } else {
       console.log('Email enviado: ' + info.response);
+      bot.sendMessage(chatId, 'Tarea '+ msg.text +' registrada');
     }
   });
-}))
+}));
