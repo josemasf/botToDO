@@ -77,7 +77,7 @@ bot.onText(/\/todo (.+)/, (msg, match) =>{
 
 function isUserAtorizated(username){
   switch(username){
-    case 'josemaf':
+    case 'josemasf':
     case 'pablo_sf':
         return true;
     default:
