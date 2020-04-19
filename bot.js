@@ -70,4 +70,4 @@ bot.onText(/\/TODO (.+)/, (msg, match) =>{
       bot.sendMessage(chatId, 'Tarea '+ msg.text +' registrada');
     }
   });
-}));
+});
