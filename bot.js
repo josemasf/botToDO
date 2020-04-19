@@ -55,7 +55,7 @@ bot.onText(/\/test/, (msg, match) => {
     const chatId = msg.chat.id;
     const resp = match[1]; // the captured "whatever"
   
-    bot.sendMessage(chatId, "Welcome " + msg.from.id);
+    bot.sendMessage(chatId, "Welcome " + msg.from.username);
   });
 
 
@@ -63,12 +63,24 @@ bot.onText(/\/todo (.+)/, (msg, match) =>{
   const newItemTODO = match[1];
   mailOptions.subject = newItemTODO;
 
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email enviado: ' + info.response);
-      bot.sendMessage(chatId, 'Tarea '+ newItemTODO +' registrada');
-    }
-  });
+  if(isUserAtorizated(msg.from.username)){
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email enviado: ' + info.response);
+        bot.sendMessage(chatId, 'Tarea '+ newItemTODO +' registrada');
+      }
+    });
+  }
 });
+
+function isUserAtorizated(username){
+  switch(username){
+    case 'josemaf':
+    case 'pablo_sf':
+        return true;
+    default:
+      return false;
+  }
+}
