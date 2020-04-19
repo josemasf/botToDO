@@ -55,7 +55,7 @@ bot.onText(/\/TODO/, (msg, match=>{
   var mailOptions = {
     from: process.env.MAILUSER ||'tucorreo@gmail.com',
     to: process.env.MAILTODO ||'mi-amigo@yahoo.com',
-    subject: msg.text.toString(),
+    subject: 'Hola',//msg.text.toString(),
     text: mensaje
   };
 
