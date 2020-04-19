@@ -28,7 +28,7 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
   console.log(msg);
 });*/
 
-bot.onText(/\/test (.+)/, (msg, match) => {
+bot.onText(/\/test/, (msg, match) => {
     // 'msg' is the received Message from Telegram
     // 'match' is the result of executing the regexp above on the text content
     // of the message
@@ -38,3 +38,32 @@ bot.onText(/\/test (.+)/, (msg, match) => {
   
     bot.sendMessage(chatId, "Welcome");
   });
+
+
+bot.onText(/\/TODO/, (msg, match=>{
+  //Creamos el objeto de transporte
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.MAILUSER || 'tucorreo@gmail.com',
+      pass: process.env.MAILPASS || 'tucontraseña'
+    }
+  });
+
+  var mensaje = "Hola desde nodejs...";
+
+  var mailOptions = {
+    from: process.env.MAILUSER ||'tucorreo@gmail.com',
+    to: process.env.MAILTODO ||'mi-amigo@yahoo.com',
+    subject: msg.text.toString(),
+    text: mensaje
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email enviado: ' + info.response);
+    }
+  });
+}))
