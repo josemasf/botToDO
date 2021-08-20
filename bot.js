@@ -87,12 +87,12 @@ function isUserAtorizated(username){
 
 bot.onText(/\/covers/, (msg, match) =>{  
 
-  bot.sendMessage(chatId, "Las portadas del dia de hoy son:");
+  //bot.sendMessage(chatId, "Las portadas del dia de hoy son:");
 
   let url = 'https://telegram.org/img/t_logo.png';
   bot.sendPhoto(chatId, url);
   
-  url = 'http://img.kiosko.net/2021/08/19/es/elpais.200.jpg';
-  bot.sendPhoto(chatId, url);
+  //url = 'http://img.kiosko.net/2021/08/19/es/elpais.200.jpg';
+  //bot.sendPhoto(chatId, url);
   
 });
