@@ -1,7 +1,7 @@
 const TeleBot = require('telebot');
 
 const token = process.env.FEDETOKEN;
-const bot = new TeleBot(TELEGRAM_BOT_TOKEN);
+const bot = new TeleBot(token);
 
 bot.on(['/start', '/hello'], (msg) => msg.reply.text('Welcome!'));
 
