@@ -3,7 +3,7 @@ const TeleBot = require('telebot');
 const cheerio = require('cheerio');
 const request =  require('request');
 
-const token = process.env.FEFESTOKEN || process.env.FEDETOKEN || '1206024789:AAFTOFqMp7EXUTOH97jooRtqClrVjqQR7eE';
+const token = process.env.FEFESTOKEN;
 const bot = new TeleBot(token);
 
 const url = {
