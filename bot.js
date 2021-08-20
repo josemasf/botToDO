@@ -1,7 +1,10 @@
 const TeleBot = require('telebot');
 
 const token = process.env.FEDETOKEN;
-const bot = new TeleBot(token);
+const bot = new TeleBot({
+  token,
+  usePlugins: ['regExpMessage', 'shortReply']
+});
 
 bot.on(['/start', '/hello'], (msg) => msg.reply.text('Welcome!'));
 
