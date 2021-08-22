@@ -88,11 +88,19 @@ bot.on('/abc', async (msg) => {
   const date = new Date();  
   const puppeteer = require('puppeteer');
 
+  const chromeOptions = {
+    headless: true,
+    defaultViewport: null,
+    args: [
+        "--incognito",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
+    ],
+};
+
   (async () => {
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox','--disable-setuid-sandbox']
-    });
+    const browser = await puppeteer.launch(chromeOptions);
     const page = await browser.newPage();
 
     await page.goto('https://twitter.com/search?q=abc%20cordoba%20portada&src=typed_query&f=live', {
