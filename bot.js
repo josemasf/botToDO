@@ -100,7 +100,7 @@ bot.on('/abc', async (msg) => {
 
     const results = await page.$$eval('a[href^="/abccordoba/"] img[src]', imgs => imgs.map(img => img.getAttribute('src')));
 
-    for(i = 0; i< 2; i++){
+    for(let i = 0; i< 2; i++){
       const abcCover = results[i].replace('&name=360x360', '')
       msg.reply.photo(abcCover)
     }   
