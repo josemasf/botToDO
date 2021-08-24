@@ -7,10 +7,13 @@ const request = require('request');
 const token = process.env.FEFESTOKEN;
 const bot = new TeleBot(token);
 
+const date = new Date();
+
 const url = {
   odb: 'https://es.kiosko.net/es/geo/Cordoba.html',
   general: 'https://es.kiosko.net/es/general.html',
   sport: 'https://es.kiosko.net/es/sport.html',
+  abc: 'https://www.kioskoymas.com/publicacion/portada/abc/2019/20191109',
 };
 
 const newpapper = {
@@ -27,7 +30,7 @@ bot.on(['/start', '/hello'], (msg) => {
 
 bot.on('/cover', async (msg) => {
   console.log(msg, 'cover');
-  const date = new Date();
+
 
   const newsPaperCover = [];
 
@@ -46,6 +49,23 @@ bot.on('/cover', async (msg) => {
     })
 
     console.log('Fin de NewsODB: ' + date.toISOString());
+  });
+
+  request({
+    method: 'GET',
+    url: url.abc
+  }, async (err, res, body) => {
+    const $ = cheerio.load(body)
+    await $('#main-image', body).each((index, item) => {
+
+      console.log(item.attribs.src)
+      const cover = item.attribs.src.replace('/2019/', '/2192/')
+      console.log(`https://www.kioskoymas.com/img/resized/${cover}`)
+
+      msg.reply.photo(`https://www.kioskoymas.com${cover}`)
+
+    })
+    console.log('Fin de NewsABC: ' + date.toISOString());
   });
 
 
@@ -84,39 +104,24 @@ bot.on('/cover', async (msg) => {
 });
 
 bot.on('/abc', async (msg) => {
-  console.log(msg, 'cover');
-  const date = new Date();  
-  const puppeteer = require('puppeteer');
 
-  const chromeOptions = {
-    headless: true,
-    defaultViewport: null,
-    args: [
-        "--incognito",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote"
-    ],
-};
+  request({
+    method: 'GET',
+    url: url.abc
+  }, async (err, res, body) => {
+    const $ = cheerio.load(body)
+    await $('#main-image', body).each((index, item) => {
+      const name = 'ABC Códoba'
 
-  (async () => {
-    const browser = await puppeteer.launch(chromeOptions);
-    const page = await browser.newPage();
+      console.log(item.attribs.src)
+      const cover = item.attribs.src.replace('/2019/', '/2192/')
+      console.log(`https://www.kioskoymas.com/img/resized/${cover}`)
 
-    await page.goto('https://twitter.com/search?q=abc%20cordoba%20portada&src=typed_query&f=live', {
-      waitUntil: 'networkidle2'
-    });
+      msg.reply.photo(`https://www.kioskoymas.com${cover}`)
 
-    const results = await page.$$eval('a[href^="/abccordoba/"] img[src]', imgs => imgs.map(img => img.getAttribute('src')));
-
-    for(let i = 0; i< 2; i++){
-      const abcCover = results[i]
-      msg.reply.photo(abcCover)
-    }   
-
-    browser.close();
-  })();
-
+    })
+    console.log('Fin de NewsABC: ' + date.toISOString());
+  });
 });
 
 
